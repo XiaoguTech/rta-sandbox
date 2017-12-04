@@ -53,7 +53,7 @@ if __name__ == '__main__':
     elif component == 'grafana':
         create_grafana(args.d, options, conf_path)
     elif component == 'kapacitor':
-        pass
+        create_kapacitor(args.d, options, conf_path)
     elif component == 'app':
         pass
     elif component == 'all':
