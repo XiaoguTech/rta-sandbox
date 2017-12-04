@@ -17,7 +17,7 @@ if __name__ == '__main__':
         description='provision of Xiaogu RTA services',
         usage = '''
             genPasswd: ./provision.py -c passwd -n orgName -o 'option:samePasswd'
-            set up influxdb: ./provision.py -c influxdb -d host:port -n orgName -p passwd -o 'db:db_name,key1=value,key2=value'
+            set up influxdb: ./provision.py -c influxdb -d host -n orgName -p passwd -o 'db:db_name,key1=value,key2=value'
             set up grafana: ./provision.py -c grafana -d host:port -n orgName -p passwd
             set up kapacitor: ./provision.py -c kapacitor -d host:port -n orgName -p passwd
             set up rta-monitor: ./provision.py -c app -d host:port -n orgName -p passwd
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     if component == 'passwd':
         create_passwd(orgName, options)
     elif component == 'influxdb':
-        pass
+        create_passwd(args.d, options)
     elif component == 'grafana':
         pass
     elif component == 'kapacitor':
