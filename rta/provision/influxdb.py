@@ -46,3 +46,21 @@ def create_influxdb_admin(dest, username, password, database):
     # grant privileges to the normal user
     url = super_url + 'grant ALL on %s to %s' % (database, username)
     post(url) 
+
+
+def manage_influxdb(dest, username, password, database, measurement, option, rp=[], cq=[]):
+    def post(query_clause):
+        url = "http://%s/query?u=%s&p=%s&db=%s&q=%s" % (dest, username, password, database, query_clause)
+        res = requests.post(url)
+        if res.status_code == 200:
+            err(res.text)
+            sys.exit(1)
+    # delete a measurement and return
+    if option == 'delete':
+        post('drop measurement ' + measurement)
+    elif option == 'add':
+        post('create measurement ' + measurement)
+    
+
+
+
