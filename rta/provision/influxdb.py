@@ -30,7 +30,19 @@ def create_influxdb(dest, options, conf_path):
 
 
 def create_influxdb_admin(dest, username, password, database):
-    url = "http://%s/query?u=%s&p=%s&q=create database %s" % (dest, username, password, database)
-    res = requests.get(url)
-    if res.status_code != 200:
-        log(res.text)
+    def post(url):
+        res = requests.post(url)
+        if res.status_code != 200:
+            log(res.text)
+    # create database
+    super_url = "http://%s/query?u=%s&p=%s&q=" % (dest, SUPERUSER, SUPERPASSWD)
+    url = super_url + 'create database ' + database
+    post(url)
+
+    # create a normal user
+    url = super_url + 'create user %s with password \'%s\'' % (username, password)
+    post(url)
+
+    # grant privileges to the normal user
+    url = super_url + 'grant ALL on %s to %s' % (database, username)
+    post(url) 

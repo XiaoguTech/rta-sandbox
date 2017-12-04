@@ -34,7 +34,7 @@ if __name__ == '__main__':
     component = args.c
 
     if component == "influxdb":
-        create_influxdb_admin(args.username, args.password, args.db)
+        create_influxdb_admin(args.d, args.username, args.password, args.db)
     else:
         sys.stderr.write('not recognized component, exit!\n')
         sys.exit(1)
