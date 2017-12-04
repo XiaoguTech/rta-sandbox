@@ -28,12 +28,13 @@ if __name__ == '__main__':
     parser.add_argument('-d', type = str, default='127.0.0.1:8086', help='destination host and port')
     parser.add_argument('-o', type = str, default ='', help='options for this operation')
     parser.add_argument('-db', type = str, default = '', help = 'influxdb database')
-
+    parser.add_argument('-username', type = str, default = '', help = 'influxdb admin username')
+    parser.add_argument('-password', type = str, default = '', help = 'influxdb admin password')
     args = parser.parse_args()
     component = args.c
 
     if component == "influxdb":
-        create_influxdb_admin(args.n, args.p, args.d)
+        create_influxdb_admin(args.username, args.password, args.db)
     else:
         sys.stderr.write('not recognized component, exit!\n')
         sys.exit(1)
