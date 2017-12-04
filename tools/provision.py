@@ -43,11 +43,12 @@ if __name__ == '__main__':
         for option in args.o.split(','):
             (k,v) = option.split(':')
             options[k] = v
-
+    working_path = join(dirname(realpath(__file__)), '../')
+    print(working_path)
     if component == 'passwd':
         create_passwd(orgName, options)
     elif component == 'influxdb':
-        create_passwd(args.d, options)
+        create_influxdb(args.d, options, working_path)
     elif component == 'grafana':
         pass
     elif component == 'kapacitor':
