@@ -51,7 +51,7 @@ if __name__ == '__main__':
     elif component == 'influxdb':
         create_influxdb(args.d, options, conf_path)
     elif component == 'grafana':
-        pass
+        create_grafana(args.d, options, conf_path)
     elif component == 'kapacitor':
         pass
     elif component == 'app':

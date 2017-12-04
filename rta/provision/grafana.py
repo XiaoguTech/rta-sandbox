@@ -9,18 +9,10 @@ def create_grafana(dest, options, conf_path):
         err("E! error, exit")
         exit(1)
     
-    log('I! start deploying docker of influxdb...')
+    log('I! start deploying docker of grafana...')
     status = os.system(docker)
     if status != 0:
         err("E! error, exit")
         exit(1)
-    time.sleep(5)
-    log('I! finish deploying docker of influxdb...')
+    log('I! finish deploying docker of grafana...')
 
-    '''log('I! create superuser[xiaogu,xiaogu]')
-    url = "http://%s:8086/query?q=create user %s with password '%s' with all privileges" % (dest, SUPERUSER, SUPERPASSWD)
-    resp = requests.post(url)
-    if resp.status_code != 200:
-        err("E! Cannot create super-admin user! %s" % resp.text)
-        exit(1)
-    log('I! done for influxdb')'''
