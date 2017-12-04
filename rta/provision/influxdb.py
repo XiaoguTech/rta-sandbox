@@ -27,3 +27,10 @@ def create_influxdb(dest, options, conf_path):
         err("E! Cannot create super-admin user! %s" % resp.text)
         exit(1)
     log('I! done for influxdb')
+
+
+def create_influxdb_admin(dest, username, password, database):
+    url = "http://%s/query?u=%s&p=%s&q=create database %s" % (dest, username, password, database)
+    res = requests.get(url)
+    if res.status_code != 200:
+        log(res.text)
