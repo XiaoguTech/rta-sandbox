@@ -16,7 +16,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='setup of Xiaogu RTA services',
         usage = '''
-            set up influxdb: ./setup.py -c influxdb -d host -n orgName -p passwd -o 'db:db_name,key1=value,key2=value'
+            set up influxdb: ./setup.py -c influxdb -d host -n dbname -p passwd -o 'db:db_name,key1=value,key2=value'
             set up grafana: ./setup.py -c grafana -d host:port -n orgName -p passwd
             set up kapacitor: ./setup.py -c kapacitor -d host:port -n orgName -p passwd
             set up rta-monitor: ./setup.py -c app -d host:port -n orgName -p passwd
@@ -27,14 +27,15 @@ if __name__ == '__main__':
     parser.add_argument('-n', type = str, default='example', help='org name')
     parser.add_argument('-d', type = str, default='127.0.0.1:8086', help='destination host and port')
     parser.add_argument('-o', type = str, default ='', help='options for this operation')
-    parser.add_argument('-db', type = str, default = '', help = 'influxdb database')
     parser.add_argument('-username', type = str, default = '', help = 'influxdb admin username')
     parser.add_argument('-password', type = str, default = '', help = 'influxdb admin password')
     args = parser.parse_args()
     component = args.c
 
     if component == "influxdb":
-        create_influxdb_admin(args.d, args.username, args.password, args.db)
+        create_influxdb_admin(args.d, args.username, args.password, args.n)
+    elif component == "grafana":
+        create_grafana_admin(args.d, args.username, args.password, args.n)
     else:
         sys.stderr.write('not recognized component, exit!\n')
         sys.exit(1)
