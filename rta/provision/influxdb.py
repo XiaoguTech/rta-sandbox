@@ -51,10 +51,12 @@ def create_influxdb_admin(dest, username, password, database):
 def manage_influxdb(dest, username, password, database, measurement, option, rps=[], rp_names=[], cqs=[], cq_names=[]):
     def post(query_clause):
         url = "http://%s/query?u=%s&p=%s&db=%s&q=%s" % (dest, username, password, database, query_clause)
+        log(url)
         res = requests.post(url)
+        err(res.text)
         if res.status_code == 200:
-            err(res.text)
             sys.exit(1)
+        
 
     # delete a measurement and return
     if option == 'delete':
@@ -64,7 +66,7 @@ def manage_influxdb(dest, username, password, database, measurement, option, rps
             err('E! Retention policy count error!')
             sys.exit(1)
         for index, rp in enumerate( list(zip(rp_names, rps)) ):
-            post('create retention policy %s on %s duration %s replication' % (rp[0], database, rp[1]) )
+            post('create retention policy %s on %s duration %s replication 1' % (rp[0], database, rp[1]) )
 
         continuous_create_format = 'create continuous query {cq_name} on %s begin select mean(*) into {retention}.%s from {last_retention}.%s group by time({cq_time}), * end' % (database, measurement, measurement)
         for i in range(len(cqs)):
