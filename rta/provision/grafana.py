@@ -65,3 +65,36 @@ def create_grafana_admin(dest, username, password, org):
     res = requests.post(url, headers=headers)
     check(res)
 
+
+def manage_grafana(dest, option, tp, title, username, password, clone=None):
+    base_url = "http://{user}:{password}@{host}/".format(user=username, password=password, host=dest)
+    headers = {"Content-Type": "application/json", "Accept": "application/json"}
+    def create_dashboard():
+        template = {
+            "dashboard": {
+                "id": None,
+                "title": title,
+                "tags": [ "templated" ],
+                "timezone": "browser",
+                "rows": [
+                    {
+                    }
+                ],
+                "schemaVersion": 6,
+                "version": 0
+            },
+            "overwrite": False
+        }
+        url = base_url + 'api/dashboards/db'
+        res = requests.post(url, headers=headers, data=json.dumps(template))
+        if res.status_code == '412':
+            err('E! Dashboard has existed!')
+        else:
+            check(res)
+
+    def delete_dashboard():
+        pass
+
+    # Reflection, for multi manipulate
+    func = "{option}_{tp}()".format(option=option, tp=tp)
+    eval(func)
